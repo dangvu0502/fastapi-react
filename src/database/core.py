@@ -4,7 +4,7 @@ from collections.abc import AsyncGenerator
 from typing import Annotated, Any, ClassVar
 
 from fastapi import Depends
-from sqlalchemy import Engine, MetaData, text, create_engine
+from sqlalchemy import MetaData, text
 from sqlalchemy.ext.asyncio import (
     AsyncConnection,
     AsyncEngine,
@@ -25,10 +25,6 @@ class EduBase(DeclarativeBase):
 class DatabaseSessionManager:
     def __init__(self, host: str, engine_kwargs: dict[str, Any]) -> None:
         self._async_engine: AsyncEngine | None = create_async_engine(
-            url = host,
-            **engine_kwargs,
-        )
-        self.engine: Engine | None = create_engine(
             url = host,
             **engine_kwargs,
         )

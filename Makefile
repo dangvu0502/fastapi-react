@@ -6,7 +6,7 @@ install:
 
 dev-backend:
 	@echo "Starting backend development server..."
-	uv run fastapi dev src/main.py
+	uv run uvicorn src.main:app --reload --reload-exclude "web/*"
 
 dev-frontend:
 	@echo "Starting frontend development server..."

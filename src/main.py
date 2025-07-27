@@ -18,7 +18,7 @@ async def lifespan(_app: FastAPI) -> AsyncGenerator[None, None]:
     await session_manager.startup()
     yield
     # Shutdown
-    if session_manager._engine is not None:
+    if session_manager._async_engine is not None:
         await session_manager.close()
 
 app = FastAPI(

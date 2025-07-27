@@ -28,19 +28,25 @@ async def init_database(*, session_manager: DatabaseSessionManager):
     schema_name = settings.DATABASE_SCHEMA
     tables = get_core_tables()
 
-    async with session_manager.connect() as conn:
-        try:
+    # Create schema (in separate transaction to handle if it already exists)
+    try:
+        async with session_manager.connect() as conn:
             await conn.execute(CreateSchema(schema_name))
             logger.info(f"Created schema: {schema_name}")
-        except Exception:
-            logger.debug(f"Schema {schema_name} already exists")
-        
+    except Exception:
+        logger.debug(f"Schema {schema_name} already exists")
+    
+    # Create tables in a new transaction
+    async with session_manager.connect() as conn:
         await conn.run_sync(EduBase.metadata.create_all, tables=tables)
         logger.info("Database tables created successfully")
     
+    # Create default user
     async with session_manager.session() as session:
-        user = await session.execute(select(EduUser).filter(EduUser.email == "admin@edu.com"))
-        if not user.scalar_one_or_none():
+        result = await session.execute(select(EduUser).filter(EduUser.email == "admin@edu.com"))
+        existing_user = result.scalar_one_or_none()
+        
+        if not existing_user:
             user = EduUser(email="admin@edu.com", password=hash_password("admin"))
             session.add(user)
             await session.commit()
