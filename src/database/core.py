@@ -4,7 +4,7 @@ from collections.abc import AsyncGenerator
 from typing import Annotated, Any, ClassVar
 
 from fastapi import Depends
-from sqlalchemy import MetaData, text
+from sqlalchemy import Engine, MetaData, text, create_engine
 from sqlalchemy.ext.asyncio import (
     AsyncConnection,
     AsyncEngine,
