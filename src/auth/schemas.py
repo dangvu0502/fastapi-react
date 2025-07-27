@@ -59,7 +59,8 @@ class UserCreate(UserBase):
 
 class UserLoginResponse(UserBase):
     """Pydantic model for user login response data."""
-    access_token: str | None = None
+    message: str
+    
 
 class UserRegisterResponse(UserBase):
     """Pydantic model for user registration response data."""

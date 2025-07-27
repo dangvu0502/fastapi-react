@@ -11,3 +11,17 @@ dev-backend:
 dev-frontend:
 	@echo "Starting frontend development server..."
 	cd web && npm run dev
+
+dev:
+	@echo "Starting development server..."
+	make dev-backend & make dev-frontend
+
+generate-client:
+	@echo "Generating TypeScript client from OpenAPI schema..."
+	cd web && npm run generate-client
+
+type-check:
+	@echo "Running TypeScript type check..."
+	cd web && npx tsc --noEmit
+
+

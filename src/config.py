@@ -49,7 +49,7 @@ class Config(CustomBaseSettings):
     #         raise ValueError(f"JWT_EXP must be between {min_exp} and {max_exp} seconds")
     #     return v
 
-    CORS_ORIGINS: list[str] = ["*"]
+    CORS_ORIGINS: list[str] = ["http://localhost:5173"]
     CORS_ALLOW_CREDENTIALS: bool = True
     CORS_METHODS: list[str] = ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"]
     CORS_HEADERS: list[str] = ["*"]
